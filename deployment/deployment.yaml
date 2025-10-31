@@ -16,6 +16,16 @@ spec:
     spec:
       containers:
       - name: api-titanic
-        image: jackobenco/application:v0.0.3
+        image: jackobenco/application:v0.0.4
         ports:
         - containerPort: 8000
+        env:
+        - name: MLFLOW_TRACKING_URI
+          value: ${{ secrets.MLFLOW_TRACKING_URI }}
+        - name: MLFLOW_TRACKING_USERNAME
+          value: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
+        - name: MLFLOW_TRACKING_PASSWORD
+          value: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
+        
+
+          
