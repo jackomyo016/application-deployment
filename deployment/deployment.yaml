@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: api-titanic
-        image: jackobenco/application:v0.0.4
+        image: jackobenco/application:v0.0.5
         ports:
         - containerPort: 8000
         env:
