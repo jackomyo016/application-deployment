@@ -21,7 +21,11 @@ spec:
         - containerPort: 8000
         env:
         - name: MLFLOW_TRACKING_URI
-          value: https://user-jackobenco016-mlflow.user.lab.sspcloud.fr
+          value: "https://user-jackobenco016-mlflow.user.lab.sspcloud.fr"
+        - name: MLFLOW_TRACKING_USERNAME
+          value: user-jackobenco016
+        - name: MLFLOW_TRACKING_PASSWORD
+          value: ilaqgmqnvil9x7n1i754
         
 
           
