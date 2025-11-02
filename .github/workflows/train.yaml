@@ -36,6 +36,12 @@ jobs:
       AWS_SESSION_TOKEN: "${{ secrets.AWS_SESSION_TOKEN }}"
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+            repository: 'ensae-reproductibilite/application'
+            ref: appli24
+
       - name: Train Model
         run: |
           python3 train.py --n_trees=${{ matrix.model-config.n_trees }} --max_features=${{ matrix.model-config.max_features }}
