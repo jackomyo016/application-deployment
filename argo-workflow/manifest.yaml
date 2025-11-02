@@ -1,3 +1,4 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
@@ -8,11 +9,10 @@ spec:
   serviceAccountName: workflow
   arguments:
     parameters:
-      # The MLflow tracking server is responsible to log the hyper-parameter and model metrics.
       - name: mlflow-tracking-uri
-        value: "https://user-jackobenco016-mlflow.user.lab.sspcloud.fr/"
+        value: https://user-jackobenco016-mlflow.user.lab.sspcloud.fr/
       - name: mlflow-experiment-name
-        value: "titanicML"
+        value: titanicML
       - name: model-training-conf-list
         value: |
           [
@@ -21,19 +21,15 @@ spec:
             { "n_trees": 20, "max_features": "log2" },
             { "n_trees": 50, "max_features": "sqrt" }
           ]
-
   templates:
-    # Entrypoint DAG template
     - name: main
       dag:
         tasks:
-          # Task 0: Start pipeline
           - name: start-pipeline
             template: start-pipeline-wt
-
-          # Task 1: Train model with given params
           - name: train-model-with-params
-            dependencies: [start-pipeline]
+            dependencies:
+              - start-pipeline
             template: run-model-training-wt
             arguments:
               parameters:
@@ -41,17 +37,15 @@ spec:
                   value: "{{item.max_features}}"
                 - name: n_trees
                   value: "{{item.n_trees}}"
-            # Pass the inputs to the task using "withParam"
             withParam: "{{workflow.parameters.model-training-conf-list}}"
-
-    # Worker template for task 0 : start-pipeline
     - name: start-pipeline-wt
       container:
         image: busybox
-        command: ["sh", "-c"]
-        args: ["echo Starting pipeline"]
-
-    # Worker template for task 1 : train model with params
+        command:
+          - sh
+          - -c
+        args:
+          - echo Starting pipeline
     - name: run-model-training-wt
       inputs:
         parameters:
@@ -60,17 +54,19 @@ spec:
       container:
         image: jackobenco016/application:v0.0.5
         imagePullPolicy: Always
-        command: ["sh", "-c"]
+        command:
+          - sh
+          - -c
         args:
-          [
-            "python3 train.py --n_trees={{inputs.parameters.n_trees}} --max_features={{inputs.parameters.max_features}}"
-          ]
+          - python3 train.py --n_trees={{inputs.parameters.n_trees}}
+            --max_features={{inputs.parameters.max_features}}
         env:
           - name: MLFLOW_TRACKING_URI
             value: "{{workflow.parameters.mlflow-tracking-uri}}"
           - name: MLFLOW_EXPERIMENT_NAME
             value: "{{workflow.parameters.mlflow-experiment-name}}"
           - name: AWS_DEFAULT_REGION
-            value: "us-east-1"
+            value: us-east-1
           - name: AWS_S3_ENDPOINT
-            value: "minio.lab.sspcloud.fr"
+            value: minio.lab.sspcloud.fr
+
