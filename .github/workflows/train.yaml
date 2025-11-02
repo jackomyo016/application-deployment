@@ -27,6 +27,7 @@ jobs:
       image: jackobenco/application:v0.0.5
     env:
       MLFLOW_TRACKING_URI: "https://user-jackobenco016-mlflow.user.lab.sspcloud.fr/"
+      MLFLOW_TRACKING_USERNAME: "user-jackobenco016"
       MLFLOW_EXPERIMENT_NAME: "titanicML"
       MLFLOW_TRACKING_PASSWORD: "${{ secrets.MLFLOW_TRACKING_PASSWORD }}"
       AWS_DEFAULT_REGION: "us-east-1"
