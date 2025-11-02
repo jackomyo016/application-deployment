@@ -10,9 +10,9 @@ arguments:
     parameters:
     # The MLflow tracking server is responsible to log the hyper-parameter and model metrics.
     - name: mlflow-tracking-uri
-        value: https://user-jackobenco016-mlflow.user.lab.sspcloud.fr/
+        value: "https://user-jackobenco016-mlflow.user.lab.sspcloud.fr/"
     - name: mlflow-experiment-name
-        value: titanicML
+        value: "titanicML"
     - name: model-training-conf-list
         value: |
         [
