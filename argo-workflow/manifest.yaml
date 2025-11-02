@@ -52,7 +52,7 @@ spec:
           - name: n_trees
           - name: max_features
       container:
-        image: jackobenco016/application:v0.0.5
+        image: jackobenco/application:v0.0.5
         imagePullPolicy: Always
         command:
           - sh
